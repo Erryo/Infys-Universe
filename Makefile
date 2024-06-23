@@ -4,8 +4,10 @@ export DBNAME=IU_pg_db
 build: 
 	@/home/infy/go/bin/templ generate
 	@go build -o ./bin/app .
+start:
+	DEV="" PORT=$(PORT) DBNAME=$(DBNAME) POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) ./bin/app
 run:
-	PORT=$(PORT) DBNAME=$(DBNAME) POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) ./bin/app
+	DEV="TRUE" PORT=$(PORT) DBNAME=$(DBNAME) POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) ./bin/app
 test:
 	docker exec -it Infys-Universe psql -U postgres -d postgres -c "\c IU_TEST;" -c "DROP TABLE IF EXISTS lessons Cascade;"
 	docker exec -it Infys-Universe psql -U postgres -d postgres -c "\c IU_TEST;" -c "DROP TABLE IF EXISTS users Cascade;"

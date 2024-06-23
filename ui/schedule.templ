@@ -1,0 +1,30 @@
+package ui
+
+import(
+    "github.com/Erryo/Infys-Universe/ui/layout"
+)
+
+templ NavBar(){
+<nav class="bg-green-500 flex flex-row">      
+    <div>
+         <a href="/home">
+             <i class="fa fa-home">
+             </i>
+         </a>
+    </div>
+    <div>  
+        <h1>Hey There</h1>
+    </div> 
+    <div>
+        <i class="fa fa-bars">
+        </i>
+    </div>
+</nav>     
+
+}
+templ AboutMe(){    
+    @layout.Base(){
+        @NavBar()
+    }
+
+}
