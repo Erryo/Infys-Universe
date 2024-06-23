@@ -22,6 +22,14 @@ type tCL struct {
 	wantLesson []types.Lesson
 }
 
+type tCS struct {
+	subject     string
+	username    string
+	desc        string
+	wantErr     error
+	wantSubject []string
+}
+
 func TestCreateUser(t *testing.T) {
 	db := ConnectDB()
 
@@ -175,7 +183,6 @@ func TestCreateLesson(t *testing.T) {
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
 			err := CreateLesson(db, tC.lesson)
-			err = PgerrorTransform(err)
 			if err != tC.wantErr {
 				t.Fatal(err)
 			}
@@ -235,6 +242,120 @@ func TestGetLesson(t *testing.T) {
 			}
 			fmt.Println(lessons)
 			fmt.Println()
+		})
+	}
+}
+
+func TestCreateSubject(t *testing.T) {
+	db := ConnectDB()
+
+	testCases := []tCS{
+		{subject: "Romanian", desc: "Create valid", wantErr: nil, username: "John Doe"},
+		{subject: "Math", desc: "Create 2nd valid", wantErr: nil, username: "John Doe"},
+		{subject: "Lit", desc: "Create 3nd valid", wantErr: nil, username: "John Doe"},
+		{subject: "Lit", desc: "Create dupe key", wantErr: types.ErrDuplicateKey, username: "John Doe"},
+		{subject: "123456789012345678901234567890", desc: "Create a long", wantErr: types.ErrValueTooLong, username: "John Doe"},
+		{subject: "Liat", desc: "Create for invalid user", wantErr: types.ErrDuplicateKey, username: "J12oe"},
+		{subject: "", desc: "Create invalid ", wantErr: types.ErrFieldEmpty, username: "John Doe"},
+		{subject: "123456789012345678901234567890", desc: "Create a long inexist user", wantErr: types.ErrValueTooLong, username: "Joe"},
+	}
+	for _, tC := range testCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			err := CreateSubject(db, tC.subject, tC.username)
+			if err != tC.wantErr {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func TestGetSubject(t *testing.T) {
+	db := ConnectDB()
+
+	testCases := []tCS{
+		{subject: "Romanian", desc: "Get valid", wantErr: nil, username: "John Doe", wantSubject: []string{"Romanian", "Math", "Lit"}},
+		{subject: "Math", desc: "Get 2nd valid", wantErr: nil, username: "John Doe", wantSubject: []string{"Romanian", "Math", "Lit"}},
+		{subject: "Lit", desc: "Get 3nd valid", wantErr: nil, username: "John Doe", wantSubject: []string{"Romanian", "Math", "Lit"}},
+		{subject: "Lit", desc: "Get dupe key", wantErr: nil, username: "John Doe", wantSubject: []string{"Romanian", "Math", "Lit"}},
+		{subject: "123456789012345678901234567890", desc: "Get a long", wantErr: types.ErrValueTooLong, username: "123456789012345678901234567890"},
+		{subject: "Liat", desc: "Get for invalid user", wantErr: nil, username: "J12oe"},
+	}
+	for _, tC := range testCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			subjects, err := GetSubject(db, tC.username)
+			if err != tC.wantErr {
+				t.Fatal(err)
+			}
+			for i := 0; i < len(subjects); {
+				for j := 0; j < len(tC.wantSubject); {
+					if subjects[i] != tC.wantSubject[j] {
+						t.Fatal("Subect Mismatch", subjects[i], tC.wantSubject[j])
+					}
+					i++
+					j++
+				}
+			}
+		})
+	}
+}
+
+//func TestDeleteUser(t *testing.T) {
+//	db := ConnectDB()
+//
+//	testCases := []tCU{
+//		{user: types.User{Username: "John Doe"}, desc: "Delete proper", wantErr: nil},
+//		{user: types.User{Username: "John Doe"}, desc: "Delete already deleted", wantErr: nil},
+//		{user: types.User{Username: "123456789012345678901234567890"}, desc: "Delete long", wantErr: types.ErrValueTooLong},
+//		{user: types.User{}, desc: "Delete empty", wantErr: types.ErrFieldEmpty},
+//	}
+//	for _, tC := range testCases {
+//		t.Run(tC.desc, func(t *testing.T) {
+//			err := DeleteUser(db, tC.user.Username)
+//			if err != tC.wantErr {
+//				t.Fatal(err)
+//			}
+//		})
+//	}
+//}
+
+func TestDeleteLesson(t *testing.T) {
+	db := ConnectDB()
+
+	testCases := []tCL{
+		{lesson: types.Lesson{Id: 1}, desc: "Delete proper", wantErr: nil},
+		{lesson: types.Lesson{Id: 1}, desc: "Delete already deleted", wantErr: nil},
+		{lesson: types.Lesson{Id: -1}, desc: "Delete invalid", wantErr: types.ErrInvalidArgument},
+		{lesson: types.Lesson{Id: 1234789012345678890}, desc: "Delete long", wantErr: types.ErrValueTooLong},
+		{lesson: types.Lesson{}, desc: "Delete empty", wantErr: types.ErrInvalidArgument},
+	}
+	for _, tC := range testCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			err := DeleteLesson(db, tC.lesson.Id)
+			if err != tC.wantErr {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func TestDeleteSubject(t *testing.T) {
+	db := ConnectDB()
+
+	testCases := []tCS{
+		{subject: "Romanian", desc: "delete proper", username: "John Doe", wantErr: nil},
+		{subject: "Math", desc: "delete proper", username: "John Doe", wantErr: nil},
+		{subject: "Lit", desc: "delete proper", username: "John Doe", wantErr: nil},
+		{subject: "Math", desc: "delete inexistent", username: "John Doe", wantErr: nil},
+		{subject: "123456789012345678901234567890", desc: "delete lon", username: "John Doe", wantErr: types.ErrValueTooLong},
+		{subject: "", desc: "delete empty", username: "John Doe", wantErr: types.ErrFieldEmpty},
+		{subject: "Lit", desc: "delete wrong user", username: "JoDoe", wantErr: nil},
+	}
+	for _, tC := range testCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			err := DeleteSubject(db, tC.username, tC.subject)
+			if err != tC.wantErr {
+				t.Fatal(err)
+			}
 		})
 	}
 }

@@ -13,10 +13,13 @@ func PgerrorTransform(err error) error {
 	if err == nil {
 		return nil
 	}
-
+	fmt.Println(err)
 	pgerr, ok := err.(*pq.Error)
 	if ok {
 		if pgerr.Code == "23505" {
+			return types.ErrDuplicateKey
+		}
+		if pgerr.Code == "23503" || pgerr.Code == "42830" {
 			return types.ErrDuplicateKey
 		}
 	}
@@ -47,6 +50,7 @@ func CreateUser(db *sql.DB, user types.User) error {
     `
 	_, err := db.Exec(query, user.Username, user.Password, user.Email, user.CreatedAt)
 	if err != nil {
+		err = PgerrorTransform(err)
 		return err
 	}
 	return nil
@@ -94,6 +98,7 @@ func CreateLesson(db *sql.DB, lesson types.Lesson) error {
 	err := db.QueryRow(query, lesson.Day, lesson.Lno, lesson.Name, lesson.StartTime, lesson.EndTime, lesson.Username).Scan(&id)
 	fmt.Print(id)
 	if err != nil {
+		err = PgerrorTransform(err)
 		return err
 	}
 	return nil
@@ -101,10 +106,10 @@ func CreateLesson(db *sql.DB, lesson types.Lesson) error {
 
 func GetLesson(db *sql.DB, username string) ([]types.Lesson, error) {
 	if username == "" {
-		return []types.Lesson{}, types.ErrFieldEmpty
+		return nil, types.ErrFieldEmpty
 	}
 	if len(username) > 25 {
-		return []types.Lesson{}, types.ErrValueTooLong
+		return nil, types.ErrValueTooLong
 	}
 
 	var lessons []types.Lesson
@@ -115,7 +120,7 @@ func GetLesson(db *sql.DB, username string) ([]types.Lesson, error) {
 	rows, err := db.Query(query, username)
 	if err != nil {
 		err = PgerrorTransform(err)
-		return []types.Lesson{}, err
+		return nil, err
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -127,4 +132,106 @@ func GetLesson(db *sql.DB, username string) ([]types.Lesson, error) {
 
 	fmt.Println(lessons)
 	return lessons, nil
+}
+
+func CreateSubject(db *sql.DB, subject, username string) error {
+	if subject == "" || username == "" {
+		return types.ErrFieldEmpty
+	}
+	if len(subject) > 25 || len(username) > 25 {
+		return types.ErrValueTooLong
+	}
+
+	query := `
+    INSERT INTO userSubjectLink (username,subject) VALUES ($1,$2)
+    `
+	_, err := db.Exec(query, username, subject)
+	if err != nil {
+		err = PgerrorTransform(err)
+		return err
+	}
+	return nil
+}
+
+func GetSubject(db *sql.DB, username string) ([]string, error) {
+	if username == "" {
+		return nil, types.ErrFieldEmpty
+	}
+	if len(username) > 25 {
+		return nil, types.ErrValueTooLong
+	}
+	query := `
+    SELECT (subject) FROM userSubjectLink WHERE username=$1
+    `
+	rows, err := db.Query(query, username)
+	if err != nil {
+		fmt.Println(err)
+		err = PgerrorTransform(err)
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var subjects []string
+	for rows.Next() {
+		var subject string
+		rows.Scan(&subject)
+		subjects = append(subjects, subject)
+	}
+	fmt.Println(subjects)
+	return subjects, nil
+}
+
+func DeleteUser(db *sql.DB, username string) error {
+	if username == "" {
+		return types.ErrFieldEmpty
+	}
+	if len(username) > 25 {
+		return types.ErrValueTooLong
+	}
+	query := `
+    DELETE FROM users WHERE username=$1
+    `
+	_, err := db.Exec(query, username)
+	if err != nil {
+		err = PgerrorTransform(err)
+		return err
+	}
+	return nil
+}
+
+func DeleteLesson(db *sql.DB, id int) error {
+	if id < 1 {
+		return types.ErrInvalidArgument
+	}
+	if id > 32767 {
+		return types.ErrValueTooLong
+	}
+	query := `
+    DELETE FROM lessons WHERE id=$1
+    `
+	_, err := db.Exec(query, id)
+	if err != nil {
+		err = PgerrorTransform(err)
+		return err
+	}
+	return nil
+}
+
+func DeleteSubject(db *sql.DB, username, subject string) error {
+	if username == "" || subject == "" {
+		return types.ErrFieldEmpty
+	}
+	if len(username) > 25 || len(subject) > 25 {
+		return types.ErrValueTooLong
+	}
+	query := `                                
+    DELETE FROM userSubjectLink WHERE username=$1 AND subject=$2            
+    `
+	_, err := db.Exec(query, username, subject)
+	if err != nil {
+		err = PgerrorTransform(err)
+		return err
+	}
+	return nil
 }

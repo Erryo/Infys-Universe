@@ -11,8 +11,11 @@ import (
 func main() {
 	app := echo.New()
 
-	db := db.ConnectDB()
-	defer db.Close()
+	dB := db.ConnectDB()
+	db.CreateUsersTable(dB)
+	db.CreateUserSubjectLinkTable(dB)
+	db.CreateLessonsTable(dB)
+	defer dB.Close()
 
 	app.GET("/", api.ShowHtml)
 	port := os.Getenv("PORT")

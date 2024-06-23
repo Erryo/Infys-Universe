@@ -43,7 +43,7 @@ func CreateUserSubjectLinkTable(db *sql.DB) error {
     username VARCHAR(25),                            
     subject VARCHAR(25),                             
     PRIMARY KEY(username,subject),                   
-    FOREIGN KEY(username) REFERENCES users(username) 
+    FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE
     )                                                
     `
 	_, err := db.Exec(userSubjectLinkQuery)
@@ -63,7 +63,7 @@ func CreateLessonsTable(db *sql.DB) error {
     startAt VARCHAR(25),                                 
     endAt VARCHAR(25),                                
     username varchar(25),                             
-    FOREIGN KEY(username) REFERENCES users(username), 
+    FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE, 
     UNIQUE(day,lno,username)                          
     )                                                 
     `
