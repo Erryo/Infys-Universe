@@ -30,10 +30,10 @@ func TestCreateLessonsTable(t *testing.T) {
 	}
 }
 
-func TestCreateUserLessonTable(t *testing.T) {
-	db := ConnectDB()
-	err := CreateUserLessonLinkTable(db)
-	if err != nil {
-		t.Fatal(err)
-	}
-}
+//func TestCreateUserLessonTable(t *testing.T) {
+//	db := ConnectDB()
+//	err := CreateUserLessonLinkTable(db)
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//}

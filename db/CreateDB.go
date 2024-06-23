@@ -25,9 +25,9 @@ func CreateUsersTable(db *sql.DB) error {
 	userQuery := `                        
     CREATE TABLE IF NOT EXISTS users(     
         username VARCHAR(25) PRIMARY KEY, 
-        password VARCHAR(25),             
-        email VARCHAR(25),                
-        createdAt time                    
+        password VARCHAR(25) NOT NULL,             
+        email VARCHAR(25) NOT NULL,                
+        createdAt VARCHAR(24) NOT NULL                   
     )                                     
 `
 	_, err := db.Exec(userQuery)
@@ -60,8 +60,8 @@ func CreateLessonsTable(db *sql.DB) error {
     day VARCHAR(15),                                  
     lno SMALLINT,                                     
     name VARCHAR(25),                                 
-    startAt TIME,                                     
-    endAt TIME,                                       
+    startAt VARCHAR(25),                                 
+    endAt VARCHAR(25),                                
     username varchar(25),                             
     FOREIGN KEY(username) REFERENCES users(username), 
     UNIQUE(day,lno,username)                          
@@ -75,20 +75,20 @@ func CreateLessonsTable(db *sql.DB) error {
 	return nil
 }
 
-func CreateUserLessonLinkTable(db *sql.DB) error {
-	userLessonLinkQuery := `
-    CREATE TABLE IF NOT EXISTS userLessonLink(
-    username VARCHAR(25),
-    lid SMALLINT,
-    PRIMARY KEY(username,LID),
-    FOREIGN KEY(username) REFERENCES users(username), 
-    FOREIGN KEY(lid) REFERENCES lessons(id) 
-    )
-    `
-	_, err := db.Exec(userLessonLinkQuery)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
+//func CreateUserLessonLinkTable(db *sql.DB) error {
+//	userLessonLinkQuery := `
+//    CREATE TABLE IF NOT EXISTS userLessonLink(
+//    username VARCHAR(25),
+//    lid SMALLINT,
+//    PRIMARY KEY(username,LID),
+//    FOREIGN KEY(username) REFERENCES users(username),
+//    FOREIGN KEY(lid) REFERENCES lessons(id)
+//    )
+//    `
+//	_, err := db.Exec(userLessonLinkQuery)
+//	if err != nil {
+//		return err
+//	}
+//
+//	return nil
+//}
