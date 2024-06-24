@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer components {
+  .topbar-menu {
+    @apply bg-gray-300 text-black  scale-0 absolute  w-auto p-2 m-2 rounded-xl duration-500;
+  }
+  .butt-shad {
+    @apply bg-prussian_blue shadow-[4px_3px_0px_0px] shadow-atomic_tangerine hover:shadow-[3px_3px_0px_0px] duration-75 hover:bg-prussian_blue-400 hover:shadow-giants_orange;
+  }
+  html {
+    @apply text-gray-800 dark:text-white;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #374151 inset !important;
+    -webkit-text-fill-color: white !important;
+  }
+}

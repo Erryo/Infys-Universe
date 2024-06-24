@@ -4,6 +4,9 @@ export DBNAME=IU_pg_db
 build: 
 	@/home/infy/go/bin/templ generate
 	@go build -o ./bin/app .
+live:
+	make build
+	make run
 start:
 	DEV="" PORT=$(PORT) DBNAME=$(DBNAME) POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) ./bin/app
 run:
