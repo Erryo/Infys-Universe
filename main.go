@@ -36,6 +36,7 @@ func main() {
 	app.Use(DisableCache)
 	app.Static("/static", "static")
 	app.GET("/", api.ShowAbout)
+	app.GET("/About", api.ShowAbout)
 	port := os.Getenv("PORT")
 
 	if port == "" {

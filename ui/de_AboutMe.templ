@@ -1,0 +1,51 @@
+package ui
+
+import(
+    "github.com/Erryo/Infys-Universe/ui/layout"
+)
+
+templ DeAboutMe(){    
+ @layout.Base(){                                                  
+    <body class="flex flex-col mt-32 bg-white dark:bg-zinc-900"> 
+    @layout.NavBar("")                                                  
+    <section>
+       @SectionHeadder("Was ist ","Infys-Universe","?")                                                  
+       <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                                                                           
+          Infy's Universe ist mein
+          need—from my school stuff to my side-projects and beyond. Building this site, if you
+          can call it that,serves as an escape from reality,
+          a creative and intellectual space where I can explore and innovate. 
+          Feel free to browse around and check out my       
+          projects on <a href="https://github.com/Erryo" class="text-blue-800 dark:text-blue-300 no-wrap underline ">GitHub</a>.                                                         
+       </p>                                                                          
+    </section>
+
+    <section class="mt-12">
+        @SectionHeadder("Why","","?")
+        <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                      
+          I created Infy's Universe to be a comprehensive platform for all the things I 
+          need and am passionate about. It includes my school schedule, learning        
+          resources for web development, and a variety of personal projects. The name   
+          "Infy's Universe" comes from my nickname "Infy" and symbolizes a space that   
+          contains everything(<font class="text-sm"> well almost everything </font>)  
+          important to me, much like a universe contains everything within it. Although 
+          it is primarily for my use, I also see it as a potential addition to my       
+          resume, showcasing my skills and projects, someday, hopefully.                                    
+        </p>                                                                            
+    </section>                                                                                         
+    <section class="mt-12">
+        @SectionHeadder("Who am ","I","?")
+     <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">
+       I am Marius Trifan, a 15-year-old student from the Republic of Moldova, but
+       &nbsp;for learning, I have been passionate about exploring new things from a young
+       age. My journey began with gaming, which evolved into a passion for game
+       development and programming. I have taught myself various programming
+       concepts and experimented with numerous projects, constantly fueling my
+       desire to learn and innovate. Academically, I have excelled in science and
+       have a deep interest in understanding how the world works. My ultimate goal
+       is to become a software engineer, focusing on problem-solving 
+     </p>
+    </section>
+    </body>
+   }
+}
