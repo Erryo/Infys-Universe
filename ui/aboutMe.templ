@@ -12,6 +12,26 @@ templ SectionHeadder(pre,bold,post string){
       </h1>                                                                 
     </div>                                                                  
     }                                                                       
+templ MyProjects(){
+        <ul class="list-disc mb-12">                                                 
+            <li class="my-6  flex flex-col justify-center items-center">             
+             <h2 class="block text-xl">Wave Function Collapse                        
+             </h2>                                                                   
+             <video width="720" height="480" controls class="block" >                
+             <source src="/static/video/WFC.mp4" >                                   
+             </video>                                                                
+            </li>                                                                    
+            <li class="my-6 flex flex-col justify-center items-center">              
+             <h2 class="block text-xl">Conway's Game of Life                         
+             </h2>                                                                   
+             <video width="720" height="480" controls class="block" >                
+             <source src="/static/video/GameOfLife.mp4" >                            
+             </video>                                                                
+            </li>                                                                    
+        </ul>                                                                        
+}
+
+
 templ AboutMe(){    
  @layout.Base(){                                                  
     <body class="flex flex-col mt-32 bg-white dark:bg-zinc-900"> 
@@ -56,12 +76,7 @@ templ AboutMe(){
     </section>
     <section class="mt-12">
     @SectionHeadder("My ","Projects","")
-        
-        <ul class="list-disc mb-8">
-            <li class="my-6">
-            Wave Function Collapse
-            </li>
-        </ul>
+    @MyProjects()
     </section>
     </body>
    }
