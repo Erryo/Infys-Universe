@@ -35,10 +35,10 @@ templ MyProjects(){
 templ AboutMe(){    
  @layout.Base(){                                                  
     <body class="flex flex-col mt-32 bg-white dark:bg-zinc-900"> 
-   @layout.NavBar("")
+   @layout.NavBar("","en")
     <section>
        @SectionHeadder("What is ","Infys-Universe","?")                                                  
-       <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                                                                           
+       <p class="AboutP">
           Infy's Universe is my personal project, a place where I gather everything I     
           need—from my school stuff to my side-projects and beyond. Building this site, if you
           can call it that,serves as an escape from reality,
@@ -50,7 +50,7 @@ templ AboutMe(){
 
     <section class="mt-12">
         @SectionHeadder("Why","","?")
-        <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                      
+        <p class="AboutP">
           I created Infy's Universe to be a comprehensive platform for all the things I 
           need and am passionate about. It includes my school schedule, learning        
           resources for web development, and a variety of personal projects. The name   
@@ -63,7 +63,7 @@ templ AboutMe(){
     </section>                                                                                         
     <section class="mt-12">
         @SectionHeadder("Who am ","I","?")
-     <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">
+     <p class="AboutP">
        I am Marius Trifan, a 15-year-old student from the Republic of Moldova, but
        &nbsp;for learning, I have been passionate about exploring new things from a young
        age. My journey began with gaming, which evolved into a passion for game

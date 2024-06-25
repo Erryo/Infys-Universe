@@ -7,10 +7,10 @@ import(
 templ RoAboutMe(){    
  @layout.Base(){                                                  
     <body class="flex flex-col mt-32 bg-white dark:bg-zinc-900"> 
-    @layout.NavBar("")                                                  
+    @layout.NavBar("","ro")                                                  
     <section>
        @SectionHeadder("Ce este ","Infys-Universe","?")                                                  
-       <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                                                                           
+       <p class="AboutP">                                                                           
         Infy's Universe este proiectul meu personal, un loc în care adun tot ce am      
         nevoie—de la lucruri pentru școală la proiectele mele secundare și mai departe. 
         Construirea acestui site, dacă pot să-i spun așa, servește ca o evadare din     
@@ -22,7 +22,7 @@ templ RoAboutMe(){
 
     <section class="mt-12">
         @SectionHeadder("De ce","","?")
-        <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                                                                                                                     
+        <p class="AboutP">                                                                                                                     
           Am creat Infys-Universe pentru a fi o platformă cuprinzătoare pentru toate                                                                                               
           lucrurile de care am nevoie și care mă pasionează. Include programul meu                                                                                                     
           școlar, resurse de învățare pentru dezvoltarea web și o varietate de proiecte                                                                                                
@@ -35,7 +35,7 @@ templ RoAboutMe(){
     </section>                                                                                         
     <section class="mt-12">
         @SectionHeadder("Cine sunt ","eu","?")
-        <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                       
+        <p class="AboutP">
           Sunt Marius Trifan, un elev de 15 ani din Republica Moldova, dar pentru mine,  
           pasiunea pentru învățare a început de la o vârstă fragedă. Călătoria mea a     
           început cu jocurile video, care s-au transformat într-o pasiune pentru         

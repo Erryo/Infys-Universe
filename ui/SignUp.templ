@@ -1,0 +1,47 @@
+package ui
+
+import(                                         
+    "github.com/Erryo/Infys-Universe/ui/layout" 
+)                                               
+templ SignUp(){
+        @layout.Base(){
+            <body class="overflow-y-scroll flex flex-col justify-center items-center mt-32 bg-white dark:bg-zinc-900">
+               @layout.NavBar("","en") 
+               <div class=" flex flex-col justify-center rounded-md max-w-xs  xl:max-w-max bg-gray-100 dark:bg-zinc-800 drop-shadow-xl shadow-black dark:shadow-white border-2 border-black dark:border-white px-8 py-10 xl:py-12">
+                   <div class="flex flex-col justify-start  ">
+                     <h2 class="text-start  text-md xl:text-lg">Infys-Universe</h2>
+                     <h1 class="text-start text-xl xl:text-2xl">Create your I-U account</h1>
+                   </div> 
+                   <div class="mt-8 xl:mt-14">
+                     <form id="fForm" action="/Submit/SignUp" method="POST" class="flex flex-col max-w-72  xl:max-w-max">
+                       <input maxlength="25" type="text" name="username" placeholder="Username" class="SI"/> 
+                       <input maxlength="25" type="text" name="email" placeholder="Email" class="SI"/>
+                       <div class="flex flex-col  xl:flex-row">                   
+                         <input maxlength="25" type="password" name="password" placeholder="Password" class="SI xl:mr-4"/>  
+                         <input maxlength="25" type="password" name="conf_password" placeholder="Confirm" class="SI"/>  
+                       </div>                  
+                       <div class="items-center justify-center flex flex-row">
+                          <input  type="checkbox" value="Show password"/>
+                          <span class="ml-2">Show Password</span>
+                       </div>
+                     </form>
+                   </div> 
+                   <div class="mt-9 xl:mt-16 flex flex-row justify-between items-center ">
+                        <a href="/SignIn" class="text-blue-800 dark:text-blue-300 underline xl:text-lg ">Sing In instead</a>
+                        <input type="submit" form="fForm" value="Alons-y" class=" xl:text-lg cursor-pointer bg-blue-500 p-2 rounded-md"/>
+                   </div> 
+               </div>
+            </body>
+        }
+    }
+
+templ RoSignUp(){                         
+        @layout.Base(){                 
+               @layout.NavBar("","ro")  
+        }                               
+    }                                   
+templ DeSignUp(){                          
+        @layout.Base(){                    
+               @layout.NavBar("","de")     
+        }                                  
+    }                                      

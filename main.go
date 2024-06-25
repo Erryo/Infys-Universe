@@ -37,6 +37,7 @@ func main() {
 	app.Static("/static", "static")
 	app.GET("/", api.ShowAbout)
 	app.GET("/About", api.ShowAbout)
+	app.GET("/SignUp", api.ShowSignUp)
 	port := os.Getenv("PORT")
 
 	if port == "" {

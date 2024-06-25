@@ -20,7 +20,7 @@ templ Base(){
 
 }
 
-templ NavBar(username string){                                                                                                                                                                      
+templ NavBar(username,lang string){                                                                                                                                                                      
     <nav class="rounded-b-md dark:text-white bg-gray-200 dark:bg-zinc-800 border-b-2 border-black dark:border-white  absolute top-0 flex flex-row w-full items-center justify-between xl:min-h-12"> 
        <div class="order-first ml-4">                                                                                                                                                               
         <a if username ==""{href="/home"}else{href="/SignUp"}>                                                                                                                                      
@@ -32,10 +32,21 @@ templ NavBar(username string){
        <div>                                                                  
        <form x-ref="langForm" method="GET" >                       
        <select x-data="{ link : '' }" x-model="link" x-init="$watch('link', value => window.location ='?lang='+link)" class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">
-             <option lang="en" value="en">En</option>      
-             <option lang="en" value="en">Us</option>      
-             <option lang="de" value="de">De</option>               
-             <option lang="ro" value="ro">Ro</option>             
+            if lang == "en" || lang == ""{
+                <option lang="en" value="en" selected>En</option>      
+                <option lang="ro" value="ro" >Ro</option>             
+                <option lang="de" value="de" >De</option>               
+            }
+            if lang == "ro"{
+                <option lang="ro" value="ro" >Ro</option>                
+                <option lang="en" value="en" selected>En</option>        
+                <option lang="de" value="de" >De</option>                
+            }                                                            
+            if lang == "de"{                                              
+                <option lang="de" value="de" >De</option>                 
+                <option lang="ro" value="ro" >Ro</option>                 
+                <option lang="en" value="en" selected>En</option>         
+            }                                                             
            </select>                                                          
          </form>                                                              
        </div>                                                                 
