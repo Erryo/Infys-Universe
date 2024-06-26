@@ -26,22 +26,21 @@ func main() {
 	fmt.Println("Dev:", isDev)
 
 	app := echo.New()
+	app.Use(DisableCache)
 
 	dB := db.ConnectDB()
 	db.CreateUsersTable(dB)
 	db.CreateUserSubjectLinkTable(dB)
 	db.CreateLessonsTable(dB)
 	defer dB.Close()
+	dbh := api.NewDbHandler(dB)
 
-	app.Use(DisableCache)
-	app.Static("/static", "static")
-	app.GET("/", api.ShowAbout)
-	app.GET("/About", api.ShowAbout)
-	app.GET("/SignUp", api.ShowSignUp)
+	api.SetUpRoutes(app, dbh)
+
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		port = "8000"
+		port = "8080"
 	}
 
 	app.Logger.Fatal(app.Start(port))

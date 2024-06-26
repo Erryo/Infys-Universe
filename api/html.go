@@ -7,7 +7,6 @@ import (
 
 func ShowAbout(c echo.Context) error {
 	lang := c.QueryParam("lang")
-	c.Logger().Printf("My langs is %v", lang)
 	if lang == "ro" {
 		return Render(c, ui.RoAboutMe())
 	}
@@ -18,13 +17,9 @@ func ShowAbout(c echo.Context) error {
 }
 
 func ShowSignUp(c echo.Context) error {
-	lang := c.QueryParam("lang")
-	c.Logger().Printf("My langs is %v", lang)
-	if lang == "ro" {
-		return Render(c, ui.RoSignUp())
-	}
-	if lang == "de" {
-		return Render(c, ui.DeSignUp())
-	}
 	return Render(c, ui.SignUp())
+}
+
+func ShowSignIn(c echo.Context) error {
+	return Render(c, ui.SignIn())
 }

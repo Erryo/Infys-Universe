@@ -29,6 +29,8 @@ templ NavBar(username,lang string){
           </a>                                                                                                                                                                                      
        </div>                                                                                                                                                                                       
        <div class="order-last group flex flex-row">                                                                                                                                                 
+
+        if lang!="signup"{
        <div>                                                                  
        <form x-ref="langForm" method="GET" >                       
        <select x-data="{ link : '' }" x-model="link" x-init="$watch('link', value => window.location ='?lang='+link)" class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">
@@ -49,18 +51,21 @@ templ NavBar(username,lang string){
             }                                                             
            </select>                                                          
          </form>                                                              
-       </div>                                                                 
+       </div>
+        }
        if username == ""{                                                                                                                                                                           
             <div class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">                                                                      
               <a href="/SignIn">                                                                                                                                                                    
                 Sign In                                                                                                                                                                             
               </a>                                                                                                                                                                                  
             </div>                                                                                                                                                                                  
+            if lang!="signup"{
             <div class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">                                                                      
               <a href="/SignUp">                                                                                                                                                                    
                 Sign Up                                                                                                                                                                             
               </a>                                                                                                                                                                                  
-            </div>                                                                                                                                                                                  
+            </div>   
+            }
        }else{                                                                                                                                                                                       
             <div class="bg-gray-200 size-0 flex flex-col group-hover:size-100">                                                                                                                     
                 <div>                                                                                                                                                                               
