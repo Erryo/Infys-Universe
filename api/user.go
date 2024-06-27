@@ -41,3 +41,30 @@ func (dbh *DbHandler) SignUp(c echo.Context) error {
 	}
 	return err
 }
+
+func (dbh *DbHandler) SignIn(c echo.Context) error {
+	username := c.FormValue("username")
+	password := c.FormValue("password")
+
+	password = password // Encrypt
+
+	c.Logger().Printf("Username:%v", username)
+	user, err := db.GetUser(dbh.db, username)
+	if err == nil {
+		if user.Password != password {
+			return c.String(200, "User password is wrong")
+		}
+		c.Logger().Print("Success")
+		c.Response().Header().Set("HX-Redirect", "/home")
+		c.Response().WriteHeader(200)
+		c.Redirect(303, "/home")
+		return nil
+	}
+	if err == types.ErrDuplicateKey {
+		return c.String(200, "Username is wrong")
+	}
+	if err == types.ErrNoRows {
+		return c.String(200, "User does not exist")
+	}
+	return err
+}

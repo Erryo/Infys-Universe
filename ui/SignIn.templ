@@ -4,8 +4,30 @@ import "github.com/Erryo/Infys-Universe/ui/layout"
 
 templ SignIn(){
     @layout.Base(){
-            <body>
+            <body class="overflow-y-scroll flex flex-col justify-center items-center mt-32 bg-white dark:bg-zinc-900">
             @layout.NavBar("","signin")
+            <div class=" flex flex-col justify-center items-center rounded-md max-w-xs  xl:max-w-max bg-gray-100 dark:bg-zinc-800 drop-shadow-xl shadow-black dark:shadow-white border-2 border-black dark:border-white px-8 py-10 xl:py-12">
+                <div class="flex flex-col justify-start">
+                  <h2 x-text="fst"  class="text-start  text-md xl:text-lg">Infys-Universe</h2>
+                  <h1  class="text-start text-xl xl:text-2xl">Log into your I-U account</h1>
+                </div>
+                <div class="mt-8 xl:mt-14 " x-data="{show:true}">
+                  <form id="fForm"  hx-post="/SignIn" hx-target="#error" class="flex flex-col max-w-72  xl:max-w-max">
+                    <input  required maxlength="25" type="text" name="username" placeholder="Username" class="px-5 py-1.5 my-1.5 rounded-md xl:px-2 xl:py-2 xl:my-2 text-black placeholder-gray-400"/>
+                    <input  minlength="8" required maxlength="25" id="pass" type="password" :type="show ? 'password' : 'text'" name="password" placeholder="Password" class="px-5 py-1.5 my-1.5 rounded-md xl:px-2 xl:py-2 xl:my-2 text-black placeholder-gray-400"/>
+                    <div class="items-center justify-center flex flex-row">
+                       <input  type="checkbox" @click="show = !show"  value="Show password"/>
+                       <span class="ml-2">Show Password</span>
+                    </div>
+                  </form>
+                </div>
+                <div class="mt-4">
+                <h2 id="error" class="text-red-700 dark:text-red-300 text-xl"></h2>
+                </div>
+                <div class="mt-6 xl:mt-8 flex flex-row justify-center items-center ">
+                     <input type="submit"  form="fForm" value="Alons-y" class="Ben" />
+                </div>
+            </div>
             </body>
-    }        
+    }
 }

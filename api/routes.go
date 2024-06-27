@@ -14,4 +14,5 @@ func SetUpRoutes(app *echo.Echo, dbh *DbHandler) {
 	app.GET("/SignUp", ShowSignUp)
 	app.POST("/SignUp", dbh.SignUp)
 	app.GET("/SignIn", ShowSignIn)
+	app.POST("/SignIn", dbh.SignIn)
 }

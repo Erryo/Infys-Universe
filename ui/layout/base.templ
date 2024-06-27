@@ -23,15 +23,14 @@ templ Base(){
 templ NavBar(username,lang string){                                                                                                                                                                      
     <nav class="rounded-b-md dark:text-white bg-gray-200 dark:bg-zinc-800 border-b-2 border-black dark:border-white  absolute top-0 flex flex-row w-full items-center justify-between xl:min-h-12"> 
        <div class="order-first ml-4">                                                                                                                                                               
-        <a if username ==""{href="/home"}else{href="/SignUp"}>                                                                                                                                      
+        <a if username !=""{href="/home"}else{href="/SignUp"}>                                                                                                                                      
            <i class="fa fa-home text-2xl hover:text-white dark:md:hover:hover:text-gray-400">                                                                                                       
            </i>                                                                                                                                                                                     
           </a>                                                                                                                                                                                      
        </div>                                                                                                                                                                                       
        <div class="order-last group flex flex-row">                                                                                                                                                 
-
-        if lang!="signup"{
-       <div>                                                                  
+       if lang != "signup" && lang !="signin" {
+       <div>
        <form x-ref="langForm" method="GET" >                       
        <select x-data="{ link : '' }" x-model="link" x-init="$watch('link', value => window.location ='?lang='+link)" class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">
             if lang == "en" || lang == ""{
@@ -52,13 +51,15 @@ templ NavBar(username,lang string){
            </select>                                                          
          </form>                                                              
        </div>
-        }
+       }
        if username == ""{                                                                                                                                                                           
+            if lang!="signin"{
             <div class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">                                                                      
               <a href="/SignIn">                                                                                                                                                                    
                 Sign In                                                                                                                                                                             
               </a>                                                                                                                                                                                  
-            </div>                                                                                                                                                                                  
+            </div>          
+            }
             if lang!="signup"{
             <div class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">                                                                      
               <a href="/SignUp">                                                                                                                                                                    
