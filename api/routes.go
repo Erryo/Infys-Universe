@@ -9,10 +9,13 @@ import (
 func SetUpRoutes(app *echo.Echo, dbh *DbHandler) {
 	app.Static("/static", "static")
 	app.GET("/favicon.ico", echo.StaticFileHandler("favicon.ico", os.DirFS("static/images/")))
+
 	app.GET("/", ShowAbout)
 	app.GET("/About", ShowAbout)
 	app.GET("/SignUp", ShowSignUp)
-	app.POST("/SignUp", dbh.SignUp)
 	app.GET("/SignIn", ShowSignIn)
+
+	app.POST("/SignUp", dbh.SignUp)
 	app.POST("/SignIn", dbh.SignIn)
+	app.GET("/LogOut", dbh.LogOut)
 }

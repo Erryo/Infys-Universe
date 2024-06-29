@@ -51,6 +51,7 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 
 	user, err := db.GetUser(dbh.db, username)
 	if err == nil {
+
 		if user.Password != password {
 			return c.String(200, "User password is wrong")
 		}
@@ -58,10 +59,14 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 		if err != nil {
 			return err
 		}
-		cookie := new(http.Cookie)
-		cookie.Name = "auth"
-		cookie.Value = t
-		cookie.Expires = time.Now().Add(time.Hour * 72)
+
+		cookie := &http.Cookie{
+			Name:     "auth",
+			Value:    t,
+			Path:     "/",
+			Expires:  time.Now().Add(time.Hour * 72),
+			HttpOnly: true,
+		}
 		c.SetCookie(cookie)
 		c.Response().Header().Set("HX-Redirect", "/user/home")
 		c.Response().WriteHeader(200)
@@ -75,6 +80,16 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 		return c.String(200, "User does not exist")
 	}
 	return err
+}
+
+func (dbh *DbHandler) LogOut(c echo.Context) error {
+	username := GetClaim(c)
+	if username == "" {
+		return types.ErrFieldEmpty
+	}
+	DeleteJWT(c)
+	c.Redirect(303, "/")
+	return nil
 }
 
 func CreateJWT(username string) (error, string) {
@@ -108,4 +123,15 @@ func GetClaim(c echo.Context) string {
 		log.Fatal("unknown claims type, cannot proceed")
 	}
 	return ""
+}
+
+func DeleteJWT(c echo.Context) {
+	cookie := &http.Cookie{
+		Name:    "auth",
+		Value:   "",
+		Path:    "/",
+		Expires: time.Unix(0, 0),
+	}
+
+	c.SetCookie(cookie)
 }
