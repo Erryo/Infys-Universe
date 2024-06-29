@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func SetUpRoutes(app *echo.Echo, r *echo.Group, dbh *DbHandler) {
+func SetUpRoutes(app *echo.Echo, dbh *DbHandler) {
 	app.Static("/static", "static")
 	app.GET("/favicon.ico", echo.StaticFileHandler("favicon.ico", os.DirFS("static/images/")))
 	app.GET("/", ShowAbout)
@@ -15,6 +15,4 @@ func SetUpRoutes(app *echo.Echo, r *echo.Group, dbh *DbHandler) {
 	app.POST("/SignUp", dbh.SignUp)
 	app.GET("/SignIn", ShowSignIn)
 	app.POST("/SignIn", dbh.SignIn)
-
-	r.GET("/home", ShowHome)
 }

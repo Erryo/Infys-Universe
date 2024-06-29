@@ -3,7 +3,7 @@
 @tailwind utilities;
 @layer components {
   .topbar-menu {
-    @apply bg-gray-300 text-black  scale-0 absolute  w-auto p-2 m-2 rounded-xl duration-500;
+    @apply bg-gray-300 text-black scale-0 absolute w-auto rounded-xl duration-500;
   }
   html {
     @apply text-black dark:text-white text-center;

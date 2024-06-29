@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/Erryo/Infys-Universe/ui"
+	"github.com/Erryo/Infys-Universe/ui/about"
 	"github.com/labstack/echo/v4"
 )
 
@@ -9,12 +10,12 @@ func ShowAbout(c echo.Context) error {
 	lang := c.QueryParam("lang")
 	username := GetClaim(c)
 	if lang == "ro" {
-		return Render(c, ui.RoAboutMe(username))
+		return Render(c, about.RoAboutMe(username))
 	}
 	if lang == "de" {
-		return Render(c, ui.DeAboutMe(username))
+		return Render(c, about.DeAboutMe(username))
 	}
-	return Render(c, ui.AboutMe(username))
+	return Render(c, about.AboutMe(username))
 }
 
 func ShowSignUp(c echo.Context) error {
