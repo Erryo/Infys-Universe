@@ -35,7 +35,8 @@ func main() {
 	defer dB.Close()
 	dbh := api.NewDbHandler(dB)
 
-	api.SetUpRoutes(app, dbh)
+	r := app.Group("/user")
+	api.SetUpRoutes(app, r, dbh)
 
 	port := os.Getenv("PORT")
 

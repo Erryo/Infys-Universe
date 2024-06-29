@@ -32,10 +32,10 @@ templ MyProjects(){
 }
 
 
-templ AboutMe(){    
+templ AboutMe(user string){    
  @layout.Base(){                                                  
     <body class="flex flex-col mt-32 bg-white dark:bg-zinc-900"> 
-   @layout.NavBar("","en")
+   @layout.NavBar(user,"en")
     <section>
        @SectionHeadder("What is ","Infys-Universe","?")                                                  
        <p class="AboutP">

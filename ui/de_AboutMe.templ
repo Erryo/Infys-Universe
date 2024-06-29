@@ -4,10 +4,10 @@ import(
     "github.com/Erryo/Infys-Universe/ui/layout"
 )
 
-templ DeAboutMe(){    
+templ DeAboutMe(user string){    
  @layout.Base(){                                                  
     <body class="flex flex-col mt-32 bg-white dark:bg-zinc-900"> 
-    @layout.NavBar("","de")                                                  
+    @layout.NavBar(user,"de")                                                  
     <section>
        @SectionHeadder("Was ist ","Infys-Universe","?")                                                  
        <p class="mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto">                                                                           

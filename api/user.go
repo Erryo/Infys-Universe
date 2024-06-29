@@ -2,10 +2,13 @@ package api
 
 import (
 	"database/sql"
+	"log"
+	"net/http"
 	"time"
 
 	"github.com/Erryo/Infys-Universe/db"
 	"github.com/Erryo/Infys-Universe/types"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -27,10 +30,8 @@ func (dbh *DbHandler) SignUp(c echo.Context) error {
 	user.CreatedAt = time.Now().Format(time.TimeOnly)
 	user.Password = password // Encrypt
 
-	c.Logger().Printf("User:%v", user)
 	err := db.CreateUser(dbh.db, user)
 	if err == nil {
-		c.Logger().Print("Success")
 		c.Response().Header().Set("HX-Redirect", "/SignIn")
 		c.Response().WriteHeader(200)
 		c.Redirect(303, "/SignIn")
@@ -48,16 +49,23 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 
 	password = password // Encrypt
 
-	c.Logger().Printf("Username:%v", username)
 	user, err := db.GetUser(dbh.db, username)
 	if err == nil {
 		if user.Password != password {
 			return c.String(200, "User password is wrong")
 		}
-		c.Logger().Print("Success")
-		c.Response().Header().Set("HX-Redirect", "/home")
+		err, t := CreateJWT(user.Username)
+		if err != nil {
+			return err
+		}
+		cookie := new(http.Cookie)
+		cookie.Name = "auth"
+		cookie.Value = t
+		cookie.Expires = time.Now().Add(time.Hour * 72)
+		c.SetCookie(cookie)
+		c.Response().Header().Set("HX-Redirect", "/user/home")
 		c.Response().WriteHeader(200)
-		c.Redirect(303, "/home")
+		c.Redirect(303, "/user/home")
 		return nil
 	}
 	if err == types.ErrDuplicateKey {
@@ -67,4 +75,37 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 		return c.String(200, "User does not exist")
 	}
 	return err
+}
+
+func CreateJWT(username string) (error, string) {
+	claims := &types.JwtCustomClaims{
+		username,
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	t, err := token.SignedString([]byte("secret"))
+	return err, t
+}
+
+func GetClaim(c echo.Context) string {
+	inter, err := c.Cookie("auth")
+	if err != nil {
+		return ""
+	}
+	tokenString := inter.Value
+
+	token, err := jwt.ParseWithClaims(tokenString, &types.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if err != nil {
+		log.Fatal(err)
+	} else if claims, ok := token.Claims.(*types.JwtCustomClaims); ok {
+		return claims.Name
+	} else {
+		log.Fatal("unknown claims type, cannot proceed")
+	}
+	return ""
 }

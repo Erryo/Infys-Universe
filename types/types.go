@@ -1,5 +1,7 @@
 package types
 
+import "github.com/golang-jwt/jwt/v5"
+
 type User struct {
 	Username  string `sql:"username"`
 	Password  string `sql:"Password"`
@@ -14,4 +16,8 @@ type Lesson struct {
 	StartTime string
 	EndTime   string
 	Username  string
+}
+type JwtCustomClaims struct {
+	Name string `json:"name"`
+	jwt.RegisteredClaims
 }

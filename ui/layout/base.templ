@@ -23,7 +23,7 @@ templ Base(){
 templ NavBar(username,lang string){                                                                                                                                                                      
     <nav class="rounded-b-md dark:text-white bg-gray-200 dark:bg-zinc-800 border-b-2 border-black dark:border-white  absolute top-0 flex flex-row w-full items-center justify-between xl:min-h-12"> 
        <div class="order-first ml-4">                                                                                                                                                               
-        <a if username !=""{href="/home"}else{href="/SignUp"}>                                                                                                                                      
+        <a if username !=""{href="/user/home"}else{href="/SignUp"}>                                                                                                                                      
            <i class="fa fa-home text-2xl hover:text-white dark:md:hover:hover:text-gray-400">                                                                                                       
            </i>                                                                                                                                                                                     
           </a>                                                                                                                                                                                      

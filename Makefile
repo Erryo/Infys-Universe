@@ -6,7 +6,7 @@ build:
 	@go build -o ./bin/app .
 live:
 	make build
-	make run
+	make start
 start:
 	DEV="" PORT=$(PORT) DBNAME=$(DBNAME) POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) ./bin/app
 run:
