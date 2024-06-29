@@ -82,7 +82,21 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 	return err
 }
 
-func (dbh *DbHandler) LogOut(c echo.Context) error {
+func (dbh *DbHandler) DeleteUser(c echo.Context) error {
+	username := GetClaim(c)
+	if username == "" {
+		return types.ErrFieldEmpty
+	}
+	err := db.DeleteUser(dbh.db, username)
+	if err != nil {
+		return err
+	}
+	DeleteJWT(c)
+	c.Redirect(303, "/")
+	return nil
+}
+
+func LogOut(c echo.Context) error {
 	username := GetClaim(c)
 	if username == "" {
 		return types.ErrFieldEmpty
