@@ -6,7 +6,7 @@
     @apply bg-gray-300 text-black scale-0 absolute w-auto rounded-xl duration-500;
   }
   html {
-    @apply text-black dark:text-white text-center;
+    @apply text-black dark:text-white text-center scroll-smooth;
   }
   .AboutP {
     @apply mt-4 xl:mt-8 text-lg max-w-2xl mx-4 xl:mx-auto leading-relaxed;

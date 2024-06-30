@@ -63,7 +63,7 @@ func TestCreateUser(t *testing.T) {
 		{user: properUser, desc: "Test a proper user", wantErr: nil},
 		{user: emptyUser, desc: "Test a emptyUser user", wantErr: types.ErrFieldEmpty},
 		{user: longUsername, desc: "Test a long username user", wantErr: types.ErrValueTooLong},
-		{user: longPassword, desc: "Test a long username user", wantErr: types.ErrValueTooLong},
+		{user: longPassword, desc: "Test a long passw user", wantErr: types.ErrValueTooLong},
 		{user: missingUsername, desc: "Test a missing username user", wantErr: types.ErrFieldEmpty},
 		{user: missingPassword, desc: "Test a missing password user", wantErr: types.ErrFieldEmpty},
 	}

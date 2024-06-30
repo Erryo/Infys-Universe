@@ -7,6 +7,7 @@ import (
 
 	"github.com/Erryo/Infys-Universe/types"
 	"github.com/lib/pq"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func PgerrorTransform(err error) error {
@@ -40,15 +41,23 @@ func CreateUser(db *sql.DB, user types.User) error {
 			return types.ErrFieldEmpty
 		}
 		if len(value) > 25 {
+			fmt.Println(value)
 			return types.ErrValueTooLong
 		}
 	}
+	// Hash
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.MinCost)
+	if err != nil {
+		return err
+	}
+	user.Password = string(hash)
 
 	query := `                                           
     INSERT INTO users(username,password,email,createdat) 
     VAlues($1,$2,$3,$4)                                  
     `
-	_, err := db.Exec(query, user.Username, user.Password, user.Email, user.CreatedAt)
+	_, err = db.Exec(query, user.Username, user.Password, user.Email, user.CreatedAt)
 	if err != nil {
 		err = PgerrorTransform(err)
 		return err

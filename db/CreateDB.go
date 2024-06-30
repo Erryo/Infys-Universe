@@ -29,7 +29,7 @@ func CreateUsersTable(db *sql.DB) error {
 	userQuery := `                        
     CREATE TABLE IF NOT EXISTS users(     
         username VARCHAR(25) PRIMARY KEY, 
-        password VARCHAR(25) NOT NULL,             
+        password VARCHAR(60) NOT NULL,             
         email VARCHAR(25) NOT NULL,                
         createdAt VARCHAR(24) NOT NULL                   
     )                                     

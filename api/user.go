@@ -10,6 +10,7 @@ import (
 	"github.com/Erryo/Infys-Universe/types"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type DbHandler struct {
@@ -26,9 +27,8 @@ func (dbh *DbHandler) SignUp(c echo.Context) error {
 	user := types.User{}
 	user.Username = c.FormValue("username")
 	user.Email = c.FormValue("email")
-	password := c.FormValue("password")
+	user.Password = c.FormValue("password")
 	user.CreatedAt = time.Now().Format(time.TimeOnly)
-	user.Password = password // Encrypt
 
 	err := db.CreateUser(dbh.db, user)
 	if err == nil {
@@ -47,14 +47,14 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 	username := c.FormValue("username")
 	password := c.FormValue("password")
 
-	password = password // Encrypt
-
 	user, err := db.GetUser(dbh.db, username)
 	if err == nil {
 
-		if user.Password != password {
+		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+		if err != nil {
 			return c.String(200, "User password is wrong")
 		}
+
 		err, t := CreateJWT(user.Username)
 		if err != nil {
 			return err
