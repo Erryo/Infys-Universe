@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/Erryo/Infys-Universe/ui"
 	"github.com/Erryo/Infys-Universe/ui/about"
+	"github.com/Erryo/Infys-Universe/ui/user"
 	"github.com/labstack/echo/v4"
 )
 
@@ -27,5 +28,18 @@ func ShowSignIn(c echo.Context) error {
 }
 
 func ShowHome(c echo.Context) error {
+	username := GetClaim(c)
+	return Render(c, user.Home(username))
+}
+
+func ShowTTT(c echo.Context) error {
+	return c.String(200, "Username is:"+GetClaim(c))
+}
+
+func ShowAccount(c echo.Context) error {
+	return c.String(200, "Username is:"+GetClaim(c))
+}
+
+func ShowSchedule(c echo.Context) error {
 	return c.String(200, "Username is:"+GetClaim(c))
 }

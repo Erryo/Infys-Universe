@@ -32,7 +32,7 @@ func (dbh *DbHandler) SignUp(c echo.Context) error {
 
 	err := db.CreateUser(dbh.db, user)
 	if err == nil {
-		c.Response().Header().Set("HX-Redirect", "/SignIn")
+		c.Response().Header().Set("HX-Redirect", "/signIn")
 		c.Response().WriteHeader(200)
 		c.Redirect(303, "/SignIn")
 		return nil

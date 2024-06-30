@@ -1,0 +1,13 @@
+package user
+
+import(
+    "github.com/Erryo/Infys-Universe/ui/layout"
+)
+
+templ Home(username string) {
+ @layout.Base(){                                                  
+    <body>
+        @layout.NavBar(username,"")                                       
+</body>
+        }
+}

@@ -12,7 +12,7 @@ templ Base(){
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <link href="static/css/tailwind.css" rel="stylesheet">
+        <link href="/static/css/tailwind.css" rel="stylesheet">
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
       { children... }
@@ -23,7 +23,7 @@ templ Base(){
 templ NavBar(username,lang string){
     <nav class="rounded-b-md dark:text-white bg-gray-200 dark:bg-zinc-800 border-b-2 border-black dark:border-white  absolute top-0 flex flex-row w-full items-center justify-between xl:min-h-12">
        <div class="order-first ml-4">
-        <a if username !=""{href="/user/home"}else{href="/SignUp"}>
+        <a if username !=""{href="/user/home"}else{href="/"}>
            <i class="fa fa-home text-2xl hover:text-white dark:md:hover:hover:text-gray-400">
            </i>
           </a>
@@ -55,14 +55,14 @@ templ NavBar(username,lang string){
        if username == ""{
             if lang!="signin"{
             <div class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">
-              <a href="/SignIn">
+              <a href="/signIn">
                 Sign In
               </a>
             </div>
             }
             if lang!="signup"{
             <div class="bg-gray-400 dark:bg-slate-400 hover:text-white hover:bg-gray-500 xl:text-md p-1 my-1 mr-2 rounded-md">
-              <a href="/SignUp">
+              <a href="/signUp">
                 Sign Up
               </a>
             </div>
@@ -72,7 +72,7 @@ templ NavBar(username,lang string){
             <i class="fa fa-bars text-2xl hover:text-white dark:md:hover:hover:text-gray-400"></i>
             <div class="bg-gray-200 topbar-menu px-2 py-2 -mx-16 flex flex-col group-hover:scale-100">
                 <div>
-                   <a href="/Account" class="text-black hover:text-red-500">
+                   <a href="/user/account" class="text-black hover:text-red-500">
                        <i class="fa fa-user"></i>
                        {username}
                    </a>
