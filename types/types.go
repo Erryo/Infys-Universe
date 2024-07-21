@@ -21,3 +21,9 @@ type JwtCustomClaims struct {
 	Name string `json:"name"`
 	jwt.RegisteredClaims
 }
+type CityData struct {
+	Main struct {
+		Temp float64 `json:"temp"`
+	} `json:"main"`
+	Name string `json:"name"`
+}

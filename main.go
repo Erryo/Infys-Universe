@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/Erryo/Infys-Universe/api"
 	"github.com/Erryo/Infys-Universe/db"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
 
@@ -22,6 +24,11 @@ func DisableCache(next echo.HandlerFunc) echo.HandlerFunc {
 }
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	isDev = os.Getenv("DEV")
 	fmt.Println("Dev:", isDev)
 

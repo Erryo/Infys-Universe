@@ -8,9 +8,9 @@ live:
 	make build
 	make start
 start:
-	DEV="" PORT=$(PORT) DBNAME=$(DBNAME) POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) ./bin/app
+	 ./bin/app
 run:
-	DEV="TRUE" PORT=$(PORT) DBNAME=$(DBNAME) POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) ./bin/app
+	DEV="TRUE" ./bin/app
 test:
 	docker exec -it Infys-Universe psql -U postgres -d postgres -c "\c IU_TEST;" -c "DROP TABLE IF EXISTS lessons Cascade;"
 	docker exec -it Infys-Universe psql -U postgres -d postgres -c "\c IU_TEST;" -c "DROP TABLE IF EXISTS users Cascade;"

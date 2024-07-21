@@ -67,7 +67,10 @@ func (dbh *DbHandler) SignIn(c echo.Context) error {
 			Expires:  time.Now().Add(time.Hour * 72),
 			HttpOnly: true,
 		}
+
+		when := time.Now().Add(time.Duration(-10) * time.Minute).Format(time.RFC3339)
 		c.SetCookie(cookie)
+		c.SetCookie(createTimeCookie(when))
 		c.Response().Header().Set("HX-Redirect", "/user/home")
 		c.Response().WriteHeader(200)
 		c.Redirect(303, "/user/home")
@@ -148,4 +151,12 @@ func DeleteJWT(c echo.Context) {
 	}
 
 	c.SetCookie(cookie)
+}
+
+func createTimeCookie(when string) *http.Cookie {
+	return &http.Cookie{
+		Name:  "time",
+		Value: when,
+		Path:  "/",
+	}
 }

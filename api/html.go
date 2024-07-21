@@ -1,6 +1,8 @@
 package api
 
 import (
+	"time"
+
 	"github.com/Erryo/Infys-Universe/ui"
 	"github.com/Erryo/Infys-Universe/ui/about"
 	"github.com/Erryo/Infys-Universe/ui/user"
@@ -29,6 +31,11 @@ func ShowSignIn(c echo.Context) error {
 
 func ShowHome(c echo.Context) error {
 	username := GetClaim(c)
+	if isTimeOk(10, c) {
+		getWeather("", "Goettingen")
+		c.SetCookie(createTimeCookie(time.Now().Format(time.RFC3339)))
+	}
+
 	return Render(c, user.Home(username))
 }
 
