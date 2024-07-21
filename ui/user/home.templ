@@ -2,12 +2,17 @@ package user
 
 import(
     "github.com/Erryo/Infys-Universe/ui/layout"
+    "github.com/Erryo/Infys-Universe/types"
+	"strconv"
 )
 
-templ Home(username string) {
+templ Home(username string,weather types.CityData) {
  @layout.Base(){                                                  
-    <body>
+    <body class="overflow-y-scroll flex flex-col justify-center items-center mt-32 bg-white dark:bg-zinc-900">
         @layout.NavBar(username,"")                                       
+        <div class=" flex flex-col justify-center items-center rounded-md max-w-xs  xl:max-w-max bg-gray-100 dark:bg-zinc-800 drop-shadow-xl shadow-black dark:shadow-white border-2 border-black dark:border-white px-8 py-10 xl:py-12">
+            <p>The temperature in <b>{ weather.Name }</b> is  { strconv.FormatFloat(weather.Main.Temp , 'f', -1, 64)} </p>
+        </div>
     </body>
         }
 }
